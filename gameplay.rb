@@ -28,8 +28,8 @@ class Gameplay
 
   def response_check(input, num_characters)
     if input == 'c' || input == "cheat"
-      puts "The current secret code is: '#{solution.upcase}'. Cheater!"
-      end_game
+      puts "The current secret code is: '#{solution.upcase}'. Cheater!\n\n"
+      guessing(num_characters)
     elsif input == 'q' || input == "quit"
       puts Communication.goodbye
       exit
