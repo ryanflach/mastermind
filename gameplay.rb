@@ -20,13 +20,10 @@ class Gameplay
     @start_time = Time.now
   end
 
-  def play_or_quit(input)
-    if input == 'q' || input == "quit"
-      puts Communication.goodbye
-    elsif input == 'p' || input == "play"
-      puts "Playing again!\n\n"
-      Game.new
-    end
+  def guessing(num_characters)
+    puts "What's your guess?"
+    @guess = gets.chomp.downcase
+    response_check(guess, num_characters)
   end
 
   def response_check(input, num_characters)
@@ -64,10 +61,15 @@ class Gameplay
     end
   end
 
-  def guessing(num_characters)
-    puts "What's your guess?"
-    @guess = gets.chomp.downcase
-    response_check(guess, num_characters)
+  def guess_check
+    check_position
+    check_element
+    puts "'#{guess.upcase}' has #{correct_element} of the correct elements with #{correct_position} in the correct position(s)."
+    if number_of_guesses == 1
+      puts "You've taken #{number_of_guesses} guess."
+    else
+      puts "You've taken #{number_of_guesses} guesses."
+    end
   end
 
   def check_position
@@ -92,14 +94,12 @@ class Gameplay
     end
   end
 
-  def guess_check
-    check_position
-    check_element
-    puts "'#{guess.upcase}' has #{correct_element} of the correct elements with #{correct_position} in the correct position(s)."
-    if number_of_guesses == 1
-      puts "You've taken #{number_of_guesses} guess."
-    else
-      puts "You've taken #{number_of_guesses} guesses."
+  def play_or_quit(input)
+    if input == 'q' || input == "quit"
+      puts Communication.goodbye
+    elsif input == 'p' || input == "play"
+      puts "Playing again!\n\n"
+      Game.new
     end
   end
 
