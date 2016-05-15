@@ -20,19 +20,41 @@ class Gameplay
     @start_time = Time.now
   end
 
-  def guessing(num_characters)
-    puts "What's your guess?"
-    @guess = gets.chomp.downcase
-    if guess == 'q' || guess == "quit"
+  def play_or_quit(input)
+    if input == 'q' || input == "quit"
       puts Communication.goodbye
-    elsif guess == 'c' || guess == "cheat"
-      puts "The current secret code is '#{solution.upcase}'. Your game is over, cheater."
-      puts Communication.play_again
+    elsif input == 'p' || input == "play"
+      puts "Playing again!\n\n"
       Game.new
-    elsif guess.length != num_characters
-      puts "Please guess #{num_characters} characters only.\n\n"
+    end
+  end
+
+  def response_check(input, num_characters)
+    if input == 'c' || input == "cheat"
+      puts "The current secret code is: '#{solution.upcase}'. Cheater!"
+      end_game
+    elsif input == 'q' || input == "quit"
+      puts Communication.goodbye
+      exit
+    else
+      length_check(input, num_characters)
+    end
+  end
+
+  def length_check(input, num_characters)
+    if input.length > num_characters
+      puts "Your guess is too long. Please guess #{num_characters} characters only."
       guessing(num_characters)
-    elsif guess == solution
+    elsif input.length < num_characters
+      puts "Your guess is too short. Please guess #{num_characters} characters only."
+      guessing(num_characters)
+    else
+      solution_check(input, num_characters)
+    end
+  end
+
+  def solution_check(input, num_characters)
+    if input == solution
       @number_of_guesses += 1
       end_game
     else
@@ -40,6 +62,12 @@ class Gameplay
       guess_check
       guessing(num_characters)
     end
+  end
+
+  def guessing(num_characters)
+    puts "What's your guess?"
+    @guess = gets.chomp.downcase
+    response_check(guess, num_characters)
   end
 
   def check_position
@@ -79,8 +107,8 @@ class Gameplay
     end_time = Time.now
     final_time = (end_time - start_time).to_i
     puts Communication.congratulations(solution.upcase, number_of_guesses, final_time)
-    puts Communication.play_again
-    Game.new
+    response = gets.chomp.downcase
+    play_or_quit(response)
   end
 
 end

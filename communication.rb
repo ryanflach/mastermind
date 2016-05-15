@@ -45,11 +45,10 @@ Use (q)uit at any time to end the game.\n\n"
   end
 
   def self.congratulations(solution, num_guesses, time)
-    "\n***** Congratulations!! You guessed the sequence '#{solution.upcase}' in \
-#{num_guesses} guesses over #{time / 60} minutes and #{time % 60} seconds. *****"
+    "\nCongratulations!! You guessed the sequence '#{solution.upcase}' in \
+#{num_guesses} guesses over #{time / 60} minutes and #{time % 60} seconds.
+
+Do you want to (p)lay again or (q)uit?"
   end
 
-  def self.play_again
-    "\nWhy not try again? I'll go ahead and get it restarted for you...\n\n"
-  end
 end

@@ -12,11 +12,15 @@ class Game
   def game_menu
     puts "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
     choice = gets.chomp.downcase
-    if choice == 'p' || choice == "play"
+    menu_check(choice)
+  end
+
+  def menu_check(input)
+    if input == 'p' || input == "play"
       choose_difficulty
-    elsif choice == 'i' || choice == "instructions"
+    elsif input == 'i' || input == "instructions"
       instructions
-    elsif choice == 'q' || choice == "quit"
+    elsif input == 'q' || input == "quit"
       puts Communication.goodbye
     else
       puts Communication.invalid_choice
@@ -33,19 +37,34 @@ class Game
   def choose_difficulty
     puts Communication.difficulty
     difficulty = gets.chomp.downcase
-    if difficulty == 'b' || difficulty == 'beginner'
-      @gameplay = Gameplay.new(4, 4)
-      game_start("beginner", 4, Communication.beginner_colors)
-    elsif difficulty == 'i' || difficulty == 'intermediate'
-      @gameplay = Gameplay.new(6, 5)
-      game_start("intermediate", 6, Communication.intermediate_colors)
-    elsif difficulty == 'a' || difficulty == 'advanced'
-      @gameplay = Gameplay.new(8, 6)
-      game_start("advanced", 8, Communication.advanced_colors)
+    difficulty_check(difficulty)
+  end
+
+  def difficulty_check(input)
+    if input == 'b' || input == 'beginner'
+      beginner_game
+    elsif input == 'i' || input == 'intermediate'
+      intermediate_game
+    elsif input == 'a' || input == 'advanced'
+      advanced_game
     else
-      puts Communication.invalid_choice
-      choose_difficulty
+      menu_check(input)
     end
+  end
+
+  def beginner_game
+    @gameplay = Gameplay.new(4, 4)
+    game_start("beginner", 4, Communication.beginner_colors)
+  end
+
+  def intermediate_game
+    @gameplay = Gameplay.new(6, 5)
+    game_start("intermediate", 6, Communication.intermediate_colors)
+  end
+
+  def advanced_game
+    @gameplay = Gameplay.new(8, 6)
+    game_start("advanced", 8, Communication.advanced_colors)
   end
 
   def game_start(difficulty, num_characters, colors)
